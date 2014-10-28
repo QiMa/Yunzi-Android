@@ -176,6 +176,7 @@ public class MainActivity extends FragmentActivity {
 					 * Add the update beacons into the grid.
 					 */
 					beacons = beaconsFragment.getGridBeacons();
+					beacons.clear();
 					beacons.addAll(arg0);
 				}
 
