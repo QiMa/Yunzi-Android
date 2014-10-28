@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Yunzi-Android</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="search_sn_id">输入 SN 或 ID 进行搜索</string>
+    <string name="rssi">RSSI:</string>
+    <string name="temperature">温度:</string>
+    <string name="light">光线:</string>
+    <string name="move">移动:</string>
+    <string name="move_count">移动计数器:</string>
+    <string name="model">型号:</string>
+    <string name="firmware">固件:</string>
+    <string name="battery">电池:</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="ask_bt_open">是否打开蓝牙</string>
+
+</resources>
