@@ -1,10 +1,15 @@
 package com.sensoro.experience.tool;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
+
 import com.sensoro.beacon.kit.Beacon;
 import com.sensoro.beacon.kit.SensoroBeaconManager;
 import com.sensoro.beacon.kit.SensoroBeaconManager.BeaconManagerListener;
+
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.bluetooth.BluetoothAdapter;
@@ -28,6 +33,11 @@ public class MainActivity extends FragmentActivity {
 	RelativeLayout containLayout;
 	BeaconsFragment beaconsFragment;
 	DetailFragment detailFragment;
+	DistanceFragment distanceFragment;
+	TemperatureFragment temperatureFragment;
+	LightFragment lightFragment;
+	MoveFragment moveFragment;
+	NotificationFragment notificationFragment;
 
 	FragmentManager fragmentManager;
 	/*
@@ -47,11 +57,19 @@ public class MainActivity extends FragmentActivity {
 	Handler handler = new Handler();
 	Runnable runnable;
 
-	public static final String FRAG_TAG_BEACONS = "TAG_BEACONS";
-	public static final String FRAG_TAG_DETAIL = "TAG_DETAIL";
+	public static final String TAG_FRAG_BEACONS = "TAG_FRAG_BEACONS";
+	public static final String TAG_FRAG_DETAIL = "TAG_FRAG_DETAIL";
+	public static final String TAG_FRAG_DISTANCE = "TAG_FRAG_DISTANCE";
+	public static final String TAG_FRAG_LIGHT = "TAG_FRAG_LIGHT";
+	public static final String TAG_FRAG_TEMPERATURE = "TAG_FRAG_TEMPERATURE";
+	public static final String TAG_FRAG_MOVE = "TAG_FRAG_MOVE";
+	public static final String TAG_FRAG_NOTIFICATION = "TAG_FRAG_NOTIFICATION";
+
+	public static final String BEACON = "beacon";
 
 	BluetoothManager bluetoothManager;
 	BluetoothAdapter bluetoothAdapter;
+	ArrayList<OnBeaconChangeListener> beaconListeners;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +95,7 @@ public class MainActivity extends FragmentActivity {
 
 	private void showFragment(int fragmentID) {
 		beaconsFragment = new BeaconsFragment();
-		fragmentManager.beginTransaction().add(R.id.activity_main_container, beaconsFragment, FRAG_TAG_BEACONS).commit();
+		fragmentManager.beginTransaction().add(R.id.activity_main_container, beaconsFragment, TAG_FRAG_BEACONS).commit();
 	}
 
 	private void initCtrl() {
@@ -85,6 +103,8 @@ public class MainActivity extends FragmentActivity {
 		fragmentManager = getSupportFragmentManager();
 		app = (MyApp) getApplication();
 		sensoroBeaconManager = app.sensoroBeaconManager;
+		beacons = new CopyOnWriteArrayList<Beacon>();
+		beaconListeners = new ArrayList<OnBeaconChangeListener>();
 	}
 
 	private void initBroadcast() {
@@ -161,9 +181,9 @@ public class MainActivity extends FragmentActivity {
 		beaconManagerListener = new BeaconManagerListener() {
 
 			@Override
-			public void onUpdateBeacon(ArrayList<Beacon> arg0) {
+			public void onUpdateBeacon(final ArrayList<Beacon> arg0) {
 				if (beaconsFragment == null) {
-					beaconsFragment = (BeaconsFragment) getSupportFragmentManager().findFragmentByTag(FRAG_TAG_BEACONS);
+					beaconsFragment = (BeaconsFragment) getSupportFragmentManager().findFragmentByTag(TAG_FRAG_BEACONS);
 				}
 				if (beaconsFragment == null) {
 					return;
@@ -175,10 +195,18 @@ public class MainActivity extends FragmentActivity {
 					/*
 					 * Add the update beacons into the grid.
 					 */
-					beacons = beaconsFragment.getGridBeacons();
-					beacons.clear();
 					beacons.addAll(arg0);
 				}
+				runOnUiThread(new Runnable() {
+					public void run() {
+						for (OnBeaconChangeListener listener : beaconListeners) {
+							if (listener == null) {
+								continue;
+							}
+							listener.onBeaconChange(arg0);
+						}
+					}
+				});
 
 			}
 
@@ -215,13 +243,13 @@ public class MainActivity extends FragmentActivity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		Fragment fragment = fragmentManager.findFragmentByTag(FRAG_TAG_BEACONS);
+		Fragment fragment = fragmentManager.findFragmentByTag(TAG_FRAG_BEACONS);
 		if (fragment != null) {
 			// exit the app
 			System.exit(0);
 			return false;
 		}
-		fragment = fragmentManager.findFragmentByTag(FRAG_TAG_DETAIL);
+		fragment = fragmentManager.findFragmentByTag(TAG_FRAG_DETAIL);
 		if (fragment != null) {
 			// back to beacons fragment
 			fragmentManager.beginTransaction().replace(R.id.activity_main_container, beaconsFragment).commit();
@@ -229,4 +257,32 @@ public class MainActivity extends FragmentActivity {
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+
+	/*
+	 * Beacon Change Listener
+	 */
+	public interface OnBeaconChangeListener {
+		public void onBeaconChange(ArrayList<Beacon> beacons);
+	}
+
+	/*
+	 * Register beacon change listener.
+	 */
+	public void registerBeaconChangerListener(OnBeaconChangeListener onBeaconChangeListener) {
+		if (beaconListeners == null) {
+			return;
+		}
+		beaconListeners.add(onBeaconChangeListener);
+	}
+
+	/*
+	 * Unregister beacon change listener.
+	 */
+	public void unregisterBeaconChangerListener(OnBeaconChangeListener onBeaconChangeListener) {
+		if (beaconListeners == null) {
+			return;
+		}
+		beaconListeners.remove(onBeaconChangeListener);
+	}
+
 }

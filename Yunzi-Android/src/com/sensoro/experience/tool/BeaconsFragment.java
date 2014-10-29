@@ -22,10 +22,9 @@ import android.widget.TextView;
 
 public class BeaconsFragment extends Fragment implements OnItemClickListener {
 
-	public static final String BEACON = "beacon";
-
 	GridView beaconsGridView;
 	BeaconAdaper adapter;
+	CopyOnWriteArrayList<Beacon> beacons;
 
 	EditText searchEditText;
 
@@ -70,11 +69,6 @@ public class BeaconsFragment extends Fragment implements OnItemClickListener {
 		super.onActivityCreated(savedInstanceState);
 	}
 
-	public CopyOnWriteArrayList<Beacon> getGridBeacons() {
-
-		return adapter.getBeacons();
-	}
-
 	public void notifyFresh() {
 		if (adapter != null) {
 			adapter.notifyDataSetChanged();
@@ -83,20 +77,17 @@ public class BeaconsFragment extends Fragment implements OnItemClickListener {
 
 	class BeaconAdaper extends BaseAdapter {
 
-		CopyOnWriteArrayList<Beacon> beacons;
 		LayoutInflater layoutInflater;
-
-		public CopyOnWriteArrayList<Beacon> getBeacons() {
-			return beacons;
-		}
+		MainActivity activity;
 
 		BeaconAdaper() {
 			layoutInflater = LayoutInflater.from(getActivity());
-			beacons = new CopyOnWriteArrayList<Beacon>();
 		}
 
 		@Override
 		public int getCount() {
+			activity = (MainActivity) getActivity();
+			beacons = activity.beacons;
 			if (beacons == null) {
 				return 0;
 			}
@@ -153,7 +144,7 @@ public class BeaconsFragment extends Fragment implements OnItemClickListener {
 			/*
 			 * set sn
 			 */
-			String sn = String.format("SN:%s", beacon.getMacAddress());
+			String sn = String.format("SN:%s", beacon.getSerialNumber());
 			viewHolder.snTextView.setText(sn);
 
 			return convertView;
@@ -168,18 +159,17 @@ public class BeaconsFragment extends Fragment implements OnItemClickListener {
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		CopyOnWriteArrayList<Beacon> beacons = adapter.getBeacons();
 		Beacon beacon = beacons.get(position);
 
 		DetailFragment detailFragment = new DetailFragment();
 		Bundle bundle = new Bundle();
-		bundle.putParcelable(BEACON, beacon);
+		bundle.putParcelable(MainActivity.BEACON, beacon);
 		detailFragment.setArguments(bundle);
 
 		MainActivity activity = (MainActivity) getActivity();
 		activity.detailFragment = detailFragment;
 
 		FragmentTransaction transaction = getFragmentManager().beginTransaction();
-		transaction.replace(R.id.activity_main_container, detailFragment, MainActivity.FRAG_TAG_DETAIL).commit();
+		transaction.replace(R.id.activity_main_container, detailFragment, MainActivity.TAG_FRAG_DETAIL).commit();
 	}
 }

@@ -15,5 +15,14 @@
     <string name="yes">是</string>
     <string name="no">否</string>
     <string name="ask_bt_open">是否打开蓝牙</string>
+    <string name="distance">距离:</string>
+    <string name="dark">昏暗:</string>
+    <string name="normal">普通:</string>
+    <string name="glare">明亮:</string>
+    <string name="degree">°C</string>
+    <string name="disable">未开启</string>
+    <string name="add">+1</string>
+    <string name="tips_header">当推送开关开启时,</string>
+    <string name="tips_tail">进入和离开云子将收到推送</string>
 
 </resources>
