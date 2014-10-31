@@ -3,5 +3,8 @@
     <color name="dark">#111111</color>
     <color name="normal">#555555</color>
     <color name="glare">#EEEEEE</color>
+    <color name="background">#FF222222</color>
+    <color name="textColor">#FF9E9E9E</color>
+    <color name="white">#FFFFFF</color>
 
 </resources>

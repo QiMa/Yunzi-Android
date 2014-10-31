@@ -1,5 +1,6 @@
 package com.sensoro.experience.tool;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import com.sensoro.beacon.kit.Beacon;
@@ -31,11 +32,13 @@ public class DistanceFragment extends Fragment implements OnBeaconChangeListener
 		super.onActivityCreated(savedInstanceState);
 	}
 
-	private void updateView() {
+	private void updateView(Beacon beacon) {
 		if (beacon == null) {
 			return;
 		}
-		distanceTextView.setText(beacon.getAccuracy() + "");
+		DecimalFormat format = new DecimalFormat("#");
+		String distance = format.format(beacon.getAccuracy() * 100);
+		distanceTextView.setText(distance + " cm");
 	}
 
 	private void initCtrl() {
@@ -47,7 +50,7 @@ public class DistanceFragment extends Fragment implements OnBeaconChangeListener
 
 	@Override
 	public void onResume() {
-		updateView();
+		updateView(beacon);
 		registerBeaconChangeListener();
 		super.onResume();
 	}
@@ -74,13 +77,17 @@ public class DistanceFragment extends Fragment implements OnBeaconChangeListener
 
 	@Override
 	public void onBeaconChange(ArrayList<Beacon> beacons) {
+		boolean exist = false;
 		for (Beacon beacon : beacons) {
 			if (beacon.getProximityUUID().equals(this.beacon.getProximityUUID()) && beacon.getMajor() == this.beacon.getMajor() && beacon.getMinor() == this.beacon.getMinor()) {
 				this.beacon = beacon;
-				updateView();
+				updateView(beacon);
+				exist = true;
 				break;
 			}
 		}
+		if (!exist) {
+			distanceTextView.setText(R.string.disappear);
+		}
 	}
-
 }

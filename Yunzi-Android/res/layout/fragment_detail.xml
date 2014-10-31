@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".MainActivity" >
 
     <LinearLayout
@@ -10,30 +11,35 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/fragment_detail_sn"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/fragment_detail_iv"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true" />
+                android:contentDescription="Beacon Image"
+                android:paddingBottom="@dimen/detail_img_padding_bottom"
+                android:paddingTop="@dimen/detail_img_padding_top" />
 
             <TextView
                 android:id="@+id/fragment_detail_id"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/fragment_detail_sn" />
+                android:gravity="center_horizontal"
+                android:textColor="@color/textColor" />
 
-            <ImageView
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/fragment_detail_sn"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="Beacon Image" />
-        </RelativeLayout>
+                android:gravity="center_horizontal"
+                android:textColor="@color/textColor" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -49,12 +55,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/rssi" />
+                    android:text="@string/rssi"
+                    android:textColor="@color/textColor" />
 
                 <TextView
                     android:id="@+id/fragment_detail_rssi"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColor" />
             </LinearLayout>
 
             <LinearLayout
@@ -65,12 +73,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/temperature" />
+                    android:text="@string/temperature"
+                    android:textColor="@color/textColor" />
 
                 <TextView
                     android:id="@+id/fragment_detail_temperature"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColor" />
             </LinearLayout>
 
             <LinearLayout
@@ -81,12 +91,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/light" />
+                    android:text="@string/light"
+                    android:textColor="@color/textColor" />
 
                 <TextView
                     android:id="@+id/fragment_detail_light"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColor" />
             </LinearLayout>
 
             <LinearLayout
@@ -97,12 +109,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/move" />
+                    android:text="@string/move"
+                    android:textColor="@color/textColor" />
 
                 <TextView
                     android:id="@+id/fragment_detail_move"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColor" />
             </LinearLayout>
 
             <LinearLayout
@@ -113,28 +127,33 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/move_count" />
+                    android:text="@string/move_count"
+                    android:textColor="@color/textColor" />
 
                 <TextView
                     android:id="@+id/fragment_detail_move_count"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColor" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:textColor="@color/textColor" >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/model" />
+                    android:text="@string/model"
+                    android:textColor="@color/textColor" />
 
                 <TextView
                     android:id="@+id/fragment_detail_model"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColor" />
             </LinearLayout>
 
             <LinearLayout
@@ -145,12 +164,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/firmware" />
+                    android:text="@string/firmware"
+                    android:textColor="@color/textColor" />
 
                 <TextView
                     android:id="@+id/fragment_detail_firmware"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColor" />
             </LinearLayout>
 
             <LinearLayout
@@ -161,12 +182,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/battery" />
+                    android:text="@string/battery"
+                    android:textColor="@color/textColor" />
 
                 <TextView
                     android:id="@+id/fragment_detail_battery"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColor" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

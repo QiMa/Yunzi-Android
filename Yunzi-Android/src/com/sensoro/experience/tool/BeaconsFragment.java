@@ -1,9 +1,7 @@
 package com.sensoro.experience.tool;
 
 import java.util.concurrent.CopyOnWriteArrayList;
-
 import com.sensoro.beacon.kit.Beacon;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -58,8 +56,8 @@ public class BeaconsFragment extends Fragment implements OnItemClickListener {
 	}
 
 	private void initDrawable() {
-		b0Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
-		a0Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+		a0Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.yunzi_a0);
+		b0Bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.yunzi_b0);
 	}
 
 	@Override
@@ -131,9 +129,9 @@ public class BeaconsFragment extends Fragment implements OnItemClickListener {
 			 * set model name
 			 */
 			String model = beacon.getHardwareModelName();
-			if (model.equalsIgnoreCase("a0")) {
+			if (model.equalsIgnoreCase(activity.getString(R.string.a0))) {
 				viewHolder.imageView.setImageBitmap(a0Bitmap);
-			} else if (model.equalsIgnoreCase("b0")) {
+			} else if (model.equalsIgnoreCase(activity.getString(R.string.b0))) {
 				viewHolder.imageView.setImageBitmap(b0Bitmap);
 			}
 			/*
@@ -170,6 +168,8 @@ public class BeaconsFragment extends Fragment implements OnItemClickListener {
 		activity.detailFragment = detailFragment;
 
 		FragmentTransaction transaction = getFragmentManager().beginTransaction();
-		transaction.replace(R.id.activity_main_container, detailFragment, MainActivity.TAG_FRAG_DETAIL).commit();
+		transaction.replace(R.id.activity_main_container, detailFragment, MainActivity.TAG_FRAG_DETAIL);
+		transaction.addToBackStack(null);
+		transaction.commit();
 	}
 }

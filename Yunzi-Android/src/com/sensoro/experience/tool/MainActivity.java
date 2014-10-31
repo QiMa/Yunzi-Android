@@ -34,6 +34,7 @@ public class MainActivity extends FragmentActivity {
 	BeaconsFragment beaconsFragment;
 	DetailFragment detailFragment;
 	DistanceFragment distanceFragment;
+	RangeFragment rangeFragment;
 	TemperatureFragment temperatureFragment;
 	LightFragment lightFragment;
 	MoveFragment moveFragment;
@@ -60,6 +61,7 @@ public class MainActivity extends FragmentActivity {
 	public static final String TAG_FRAG_BEACONS = "TAG_FRAG_BEACONS";
 	public static final String TAG_FRAG_DETAIL = "TAG_FRAG_DETAIL";
 	public static final String TAG_FRAG_DISTANCE = "TAG_FRAG_DISTANCE";
+	public static final String TAG_FRAG_RANGE = "TAG_FRAG_RANGE";
 	public static final String TAG_FRAG_LIGHT = "TAG_FRAG_LIGHT";
 	public static final String TAG_FRAG_TEMPERATURE = "TAG_FRAG_TEMPERATURE";
 	public static final String TAG_FRAG_MOVE = "TAG_FRAG_MOVE";
@@ -158,10 +160,9 @@ public class MainActivity extends FragmentActivity {
 			@Override
 			public void run() {
 				updateGridView();
-				handler.postDelayed(this, 5000);
+				handler.postDelayed(this, 2000);
 			}
 		};
-
 	}
 
 	/*
@@ -244,17 +245,18 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		Fragment fragment = fragmentManager.findFragmentByTag(TAG_FRAG_BEACONS);
-		if (fragment != null) {
+		if (fragment != null && fragment.isVisible()) {
 			// exit the app
 			System.exit(0);
 			return false;
 		}
-		fragment = fragmentManager.findFragmentByTag(TAG_FRAG_DETAIL);
-		if (fragment != null) {
-			// back to beacons fragment
-			fragmentManager.beginTransaction().replace(R.id.activity_main_container, beaconsFragment).commit();
-			return false;
-		}
+		// fragment = fragmentManager.findFragmentByTag(TAG_FRAG_DETAIL);
+		// if (fragment != null) {
+		// // back to beacons fragment
+		// fragmentManager.beginTransaction().replace(R.id.activity_main_container,
+		// beaconsFragment).commit();
+		// return false;
+		// }
 		return super.onKeyDown(keyCode, event);
 	}
 
